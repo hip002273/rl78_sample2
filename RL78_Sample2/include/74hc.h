@@ -276,7 +276,7 @@ Macro definitions
 }
 
 #define	IC74HC4511_PROC(LE_in, BI_in, LT_in, A_in, B_in, C_in, D_in,			\
-							a_out, b_out, c_out, d_out, e_out, f_out, g_out)	\
+							a_out, b_out, c_out, d_out, e_out, f_out, g_out, h_out)	\
 {																				\
 	{																			\
 			UCHAR	State;														\
@@ -289,8 +289,11 @@ Macro definitions
 			c_out = (ucSeg>>5) & 0x01;											\
 			d_out = (ucSeg>>4) & 0x01;											\
 			e_out = (ucSeg>>3) & 0x01;											\
-			f_out = (ucSeg>>2) & 0x01;											\
-			g_out = (ucSeg>>1) & 0x01;											\
+			f_out = (ucSeg>>2) & 0x01;\
+			g_out = (ucSeg>>1) & 0x01;\
+			if(h_out == fOFF){\
+				h_out = (ucSeg>>0) & 0x01;\
+			}\
 			IC74HC4511_Counter();												\
 	}																			\
 }

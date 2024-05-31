@@ -776,7 +776,8 @@ UCHAR  IC_74HC4511_Evaluate( UCHAR State, UCHAR A_in, UCHAR B_in, UCHAR C_in, UC
 	UCHAR ucRet[11] =  { 0b11111100, 0b01100000, 0b11011010, 0b11110010, 0b01100110,
 							     0b10110110, 0b00111110, 0b11100000, 0b11111110, 0b11100110, 0b00000000 };
 	UCHAR	ucValue;
-	
+	UCHAR	lastValue = ByteMemGet(g74HC4511_LastNum, g74HC4511_Count);
+
 	switch(State)
 	{
 		case 0:
@@ -798,8 +799,15 @@ UCHAR  IC_74HC4511_Evaluate( UCHAR State, UCHAR A_in, UCHAR B_in, UCHAR C_in, UC
 			break;
 	}
 	
-	if (ucValue > 10) ucValue = 10;
-	return ucRet[ucValue];
+	if(ucValue > 10){
+		ucValue = 10;
+	}
+	
+	if (lastValue == 9 && ucValue == 0) {
+		return ucRet[ucValue] + 1 ; // show dot
+	}else{
+		return ucRet[ucValue];
+	}
 }
 
 /*******************************************************************************
