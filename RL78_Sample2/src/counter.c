@@ -218,7 +218,7 @@ UCHAR BCNT_Evaluate( UCHAR mr, UCHAR cp0, UCHAR cp1, UCHAR max )
 			if (cp1 == LOW) {
 				if (lastcp1 == HIGH) {
 					/* (Count value of binary counter)++ */
-					count++;
+					count--;
 				}
 			}
 		}
@@ -238,9 +238,9 @@ UCHAR BCNT_Evaluate( UCHAR mr, UCHAR cp0, UCHAR cp1, UCHAR max )
 	}
 	
 	/* If the count value is larger than the count maximum value, it returns it to 0. */
-	if (count > max) {
+	if (count > max ) {
 		/* (Count value of binary counter)<-0 */
-		count = 0;
+		count = max;
 	}
 	
 	/* This value of cp0 of binary counter is preserved. */
