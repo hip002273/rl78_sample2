@@ -69,6 +69,7 @@ UCHAR	g74HC77_Count = 0;
 #if defined IC74HC4511_USED
 UCHAR	g74HC4511_LastNum[IC74HC4511_USED];
 UCHAR	g74HC4511_Count = 0;
+UCHAR	g74HC4511_DotToggle = fOFF;
 #endif /* end of defined IC74HC4511_USED */
 
 #if defined IC74HC166_USED
@@ -776,6 +777,7 @@ UCHAR  IC_74HC4511_Evaluate( UCHAR State, UCHAR A_in, UCHAR B_in, UCHAR C_in, UC
 	UCHAR ucRet[11] =  { 0b11111100, 0b01100000, 0b11011010, 0b11110010, 0b01100110,
 							     0b10110110, 0b00111110, 0b11100000, 0b11111110, 0b11100110, 0b00000000 };
 	UCHAR	ucValue;
+	UCHAR	ucLValue = ByteMemGet(g74HC4511_LastNum, g74HC4511_Count);
 	
 	switch(State)
 	{
@@ -799,7 +801,15 @@ UCHAR  IC_74HC4511_Evaluate( UCHAR State, UCHAR A_in, UCHAR B_in, UCHAR C_in, UC
 	}
 	
 	if (ucValue > 10) ucValue = 10;
-	return ucRet[ucValue];
+	if(ucLValue == 9 && ucValue == 0){
+		if(g74HC4511_DotToggle == fOFF){
+			g74HC4511_DotToggle = fON;
+		}else{
+			g74HC4511_DotToggle = fOFF;
+		}
+	}
+	
+	return ucRet[ucValue] + g74HC4511_DotToggle;
 }
 
 /*******************************************************************************
